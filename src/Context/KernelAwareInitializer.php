@@ -42,7 +42,7 @@ class KernelAwareInitializer implements EventSubscriberInterface, ContextInitial
     public static function getSubscribedEvents()
     {
         return [
-            ScenarioTested::AFTER => ['rebootKernel', -15]
+            ScenarioTested::AFTER => ['rebootKernel', - 15]
         ];
     }
 
@@ -73,9 +73,17 @@ class KernelAwareInitializer implements EventSubscriberInterface, ContextInitial
     {
         $this->kernel->flush();
 
-        $laravel = new LumenBooter($this->kernel->basePath(), $this->kernel->environmentFile());
+        // The Lumen application has no environmentFile() method like L5.
+        // Instead, get it from the global variable.
+        // Note that for '.env.behat' to work, you need to modify your app.php file,
+        // else '.env' will be used. See LumenBooter.
 
-        $this->context->getSession('lumen')->getDriver()->reboot($this->kernel = $laravel->boot());
+        global $dotEnv_filename;
+        $environmentFile = $dotEnv_filename ?: '.env.behat';
+
+        $lumen = new LumenBooter($this->kernel->basePath(), $environmentFile);
+
+        $this->context->getSession('lumen')->getDriver()->reboot($this->kernel = $lumen->boot());
 
         $this->setAppOnContext();
     }

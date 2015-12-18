@@ -63,26 +63,23 @@ class LumenBooter {
 
 		$this->assertBootstrapFileExists($bootstrapPath);
 
-		// There's no way to the the application to use another .env file,
-		// so we'll just store it's name globally
-		// (idea from arisro/behat-lumen-extension)
-		
-		// In order to load '.env.behat', change the Dotenv loading
-		// in /bootstrap/app.php to something like:
+		// In Lumen, there's no way to first create the application and then tell it 
+		// to use another .env file to load while booting. It will load '.env' immediately upon creation.
 		//
-		// global $dotEnv_filename;
-		// Dotenv::load(__DIR__.'/../', $dotEnv_filename ?: '.env');
+		// Since we cannot inject configuration items yet (no application), we'll just
+		// use a global variable to store the name (idea from arisro/behat-lumen-extension).
+		//
+		// In order to load '.env.behat', change the Dotenv loading in /bootstrap/app.php to something like:
+		//     global $dotEnv_filename;
+		//     Dotenv::load(__DIR__.'/../', $dotEnv_filename ?: '.env');
 		
 		global $dotEnv_filename;
 		$dotEnv_filename = $this->environmentFile();
 
 		$app = require $bootstrapPath;
 
-        // Bootstrap the (console) kernel
-		// Request all commands (this creates an Artisan instance)
-		// TODO: Check this
-		// Needed to run CommandTester with commands that are present in
-		// deferrend ServiceProviders
+        // Bootstrap the (console) kernel by requesting all commands
+		// (this forces the creation of an Artisan instance)
 		$app->make('Illuminate\Contracts\Console\Kernel')->all();
 
 		return $app;
