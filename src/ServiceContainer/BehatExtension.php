@@ -59,7 +59,7 @@ class BehatExtension implements Extension {
 	{
 		$app = $this->loadLumen($container, $config);
 
-		$this->loadInitializer($container, $app);
+		$this->loadInitializer($container, $app, $config);
 	}
 
 	/**
@@ -83,10 +83,11 @@ class BehatExtension implements Extension {
 	 *
 	 * @param ContainerBuilder    $container
 	 * @param HttpKernelInterface $app
+	 * @param array               $behatConfig
 	 */
-	private function loadInitializer(ContainerBuilder $container, $app)
+	private function loadInitializer(ContainerBuilder $container, $app, array $config)
 	{
-		$definition = new Definition('Laracasts\Behat\Context\KernelAwareInitializer', [$app]);
+		$definition = new Definition('Laracasts\Behat\Context\KernelAwareInitializer', [$app, $config]);
 
 		$definition->addTag(EventDispatcherExtension::SUBSCRIBER_TAG, ['priority' => 0]);
 		$definition->addTag(ContextExtension::INITIALIZER_TAG, ['priority' => 0]);

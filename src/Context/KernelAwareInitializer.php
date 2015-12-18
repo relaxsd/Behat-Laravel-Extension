@@ -25,15 +25,23 @@ class KernelAwareInitializer implements EventSubscriberInterface, ContextInitial
      * @var Context
      */
     private $context;
+    /**
+     * The Behat config.
+     * 
+     * @var array
+     */
+    private $config;
 
     /**
      * Construct the initializer.
      *
      * @param HttpKernelInterface $kernel
+     * @param array               $config
      */
-    public function __construct(HttpKernelInterface $kernel)
+    public function __construct(HttpKernelInterface $kernel, array $config)
     {
         $this->kernel = $kernel;
+        $this->config = $config;
     }
 
     /**
@@ -74,14 +82,8 @@ class KernelAwareInitializer implements EventSubscriberInterface, ContextInitial
         $this->kernel->flush();
 
         // The Lumen application has no environmentFile() method like L5.
-        // Instead, get it from the global variable.
-        // Note that for '.env.behat' to work, you need to modify your app.php file,
-        // else '.env' will be used. See LumenBooter.
-
-        global $dotEnv_filename;
-        $environmentFile = $dotEnv_filename ?: '.env.behat';
-
-        $lumen = new LumenBooter($this->kernel->basePath(), $environmentFile);
+        // Instead, get the env_path from the Behat config again.
+        $lumen = new LumenBooter($this->kernel->basePath(), $this->config['env_path']);
 
         $this->context->getSession('lumen')->getDriver()->reboot($this->kernel = $lumen->boot());
 
