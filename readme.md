@@ -27,15 +27,20 @@ default:
     extensions:
         Laracasts\Behat:
             # env_path: .env.behat
+            # bootstrap_path: bootstrap/app.php
         Behat\MinkExtension:
-            default_session: laravel
-            laravel: ~
+            default_session: lumen
+            lumen: ~
 ```
 
-Here, is where we reference the Laravel extension, and tell Behat to use it as our default session. You may pass an optional parameter, `env_path` (currently commented out above) to specify the name of the environment file that should be referenced from your tests. By default, it'll look for a `.env.behat` file.
+Here, is where we reference the Lumen extension, and tell Behat to use it as our default session. 
 
+You may pass an optional parameter, `env_path` (currently commented out above) to specify the name of the environment file that should be referenced from your tests. 
+By default, it'll look for a `.env.behat` file.
 This file should, like the standard `.env` file in your project root, contain any special environment variables
 for your tests (such as a special acceptance test-specific database).
+
+You may also pass an optional parameter, `bootstrap_path` (currently commented out above) to specify the name of the bootstrap file for your application (relative to the behat.yml file).
 
 # 3. Write Some Features
 

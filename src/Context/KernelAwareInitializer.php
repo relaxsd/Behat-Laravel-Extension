@@ -83,7 +83,7 @@ class KernelAwareInitializer implements EventSubscriberInterface, ContextInitial
 
         // The Lumen application has no environmentFile() method like L5.
         // Instead, get the env_path from the Behat config again.
-        $lumen = new LumenBooter($this->kernel->basePath(), $this->config['env_path']);
+        $lumen = new LumenBooter($this->kernel->basePath(), $this->config['bootstrap_path'], $this->config['env_path']);
 
         $this->context->getSession('lumen')->getDriver()->reboot($this->kernel = $lumen->boot());
 

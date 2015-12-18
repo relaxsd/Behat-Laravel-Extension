@@ -71,7 +71,7 @@ class BehatExtension implements Extension {
 	 */
 	private function loadLumen(ContainerBuilder $container, array $config)
 	{
-		$lumen = new LumenBooter($container->getParameter('paths.base'), $config['env_path']);
+		$lumen = new LumenBooter($container->getParameter('paths.base'), $config['bootstrap_path'], $config['env_path']);
 
 		$container->set('lumen.app', $app = $lumen->boot());
 

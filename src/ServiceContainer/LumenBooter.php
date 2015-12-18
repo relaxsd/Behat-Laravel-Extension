@@ -14,6 +14,13 @@ class LumenBooter {
 	private $basePath;
 
 	/**
+	 * The application's bootstrap file, relative to the base path.
+	 * 
+	 * @var string
+	 */
+	private $bootstrapFile;
+
+	/**
 	 * The application's environment file.
 	 *
 	 * @var string
@@ -23,12 +30,14 @@ class LumenBooter {
 	/**
 	 * Create a new Lumen booter instance.
 	 *
-	 * @param        $basePath
+	 * @param string $basePath
+	 * @param string $bootstrapFile
 	 * @param string $environmentFile
 	 */
-	public function __construct($basePath, $environmentFile = '.env.behat')
+	public function __construct($basePath, $bootstrapFile = 'bootstrap/app.php', $environmentFile = '.env.behat')
 	{
 		$this->basePath        = $basePath;
+		$this->bootstrapFile   = $bootstrapFile;
 		$this->environmentFile = $environmentFile;
 	}
 
@@ -42,6 +51,16 @@ class LumenBooter {
 		return $this->basePath;
 	}
 
+	/**
+	 * Get the application's bootstrap file, relative to the base path.
+	 *
+	 * @return string
+	 */
+	public function bootstrapFile()
+	{
+		return ltrim($this->bootstrapFile, '/');
+	}
+	
 	/**
 	 * Get the application's environment file.
 	 *
@@ -59,7 +78,7 @@ class LumenBooter {
 	 */
 	public function boot()
 	{
-		$bootstrapPath = $this->basePath().'/bootstrap/app.php';
+		$bootstrapPath = $this->basePath().'/'.$this->bootstrapFile();
 
 		$this->assertBootstrapFileExists($bootstrapPath);
 
