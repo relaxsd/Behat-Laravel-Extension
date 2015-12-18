@@ -45,11 +45,11 @@ class BehatExtension implements Extension {
 	{
 		$builder
 			->children()
-			->scalarNode('bootstrap_path')
-			->defaultValue('bootstrap/app.php')
-			->end()
-			->scalarNode('env_path')
-			->defaultValue('.env.behat');
+				->scalarNode('bootstrap_path')
+					->defaultValue('bootstrap/app.php')
+				->end()
+				->scalarNode('env_path')
+					->defaultValue('.env.behat');
 	}
 
 	/**
