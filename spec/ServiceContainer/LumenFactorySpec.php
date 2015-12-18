@@ -5,12 +5,12 @@ namespace spec\Laracasts\Behat\ServiceContainer;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class LaravelFactorySpec extends ObjectBehavior
+class LumenFactorySpec extends ObjectBehavior
 {
 
     function it_is_a_behat_driver_factory()
     {
-        $this->shouldHaveType('Laracasts\Behat\ServiceContainer\LaravelFactory');
+        $this->shouldHaveType('Laracasts\Behat\ServiceContainer\LumenFactory');
     }
 
     function it_does_not_support_javascript()

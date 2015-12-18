@@ -7,7 +7,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class LaravelFactory implements DriverFactory
+class LumenFactory implements DriverFactory
 {
 
     /**
@@ -15,7 +15,7 @@ class LaravelFactory implements DriverFactory
      */
     public function getDriverName()
     {
-        return 'laravel';
+        return 'lumen';
     }
 
     /**
@@ -42,7 +42,7 @@ class LaravelFactory implements DriverFactory
         $this->assertBrowserkitIsAvailable();
 
         return new Definition('Laracasts\Behat\Driver\KernelDriver', [
-            new Reference('laravel.app'),
+            new Reference('lumen.app'),
             '%mink.base_url%'
         ]);
     }
@@ -56,10 +56,9 @@ class LaravelFactory implements DriverFactory
     {
         if ( ! class_exists('Behat\Mink\Driver\BrowserKitDriver')) {
             throw new RuntimeException(
-                'Install MinkBrowserKitDriver in order to use the laravel driver.'
+                'Install MinkBrowserKitDriver in order to use the lumen driver.'
             );
         }
     }
 
 }
-

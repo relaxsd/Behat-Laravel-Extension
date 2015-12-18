@@ -5,7 +5,7 @@ namespace spec\Laracasts\Behat\ServiceContainer;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class LaravelBooterSpec extends ObjectBehavior
+class LumenBooterSpec extends ObjectBehavior
 {
     function let()
     {
@@ -14,7 +14,7 @@ class LaravelBooterSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Laracasts\Behat\ServiceContainer\LaravelBooter');
+        $this->shouldHaveType('Laracasts\Behat\ServiceContainer\LumenBooter');
     }
 
     function it_knows_the_base_path()

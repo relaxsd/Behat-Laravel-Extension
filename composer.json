@@ -1,13 +1,17 @@
 {
     "name": "laracasts/behat-laravel-extension",
     "type": "behat-extension",
-    "description": "Laravel extension for Behat",
-    "keywords": ["laravel", "behat", "extension", "bdd"],
+    "description": "Laravel/Lumen extension for Behat",
+    "keywords": ["laravel", "lumen", "behat", "extension", "bdd"],
     "license": "MIT",
     "authors": [
         {
             "name": "JeffreyWay",
             "email": "jeffrey@laracasts.com"
+        },
+        {
+            "name": "Martijn Kriek",
+            "email": "martijn.kriek@relax-software.nl"
         }
     ],
     "autoload": {

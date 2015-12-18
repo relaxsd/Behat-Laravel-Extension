@@ -5,7 +5,7 @@ namespace Laracasts\Behat\Context;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\Initializer\ContextInitializer;
 use Behat\Behat\EventDispatcher\Event\ScenarioTested;
-use Laracasts\Behat\ServiceContainer\LaravelBooter;
+use Laracasts\Behat\ServiceContainer\LumenBooter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -73,9 +73,9 @@ class KernelAwareInitializer implements EventSubscriberInterface, ContextInitial
     {
         $this->kernel->flush();
 
-        $laravel = new LaravelBooter($this->kernel->basePath(), $this->kernel->environmentFile());
+        $laravel = new LumenBooter($this->kernel->basePath(), $this->kernel->environmentFile());
 
-        $this->context->getSession('laravel')->getDriver()->reboot($this->kernel = $laravel->boot());
+        $this->context->getSession('lumen')->getDriver()->reboot($this->kernel = $laravel->boot());
 
         $this->setAppOnContext();
     }
