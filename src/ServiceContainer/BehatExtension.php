@@ -83,7 +83,7 @@ class BehatExtension implements Extension {
 	 *
 	 * @param ContainerBuilder    $container
 	 * @param HttpKernelInterface $app
-	 * @param array               $behatConfig
+	 * @param array               $config
 	 */
 	private function loadInitializer(ContainerBuilder $container, $app, array $config)
 	{
