@@ -6,9 +6,11 @@ use Behat\Behat\Context\ServiceContainer\ContextExtension;
 use Behat\Testwork\EventDispatcher\ServiceContainer\EventDispatcherExtension;
 use Behat\Testwork\ServiceContainer\Extension;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
+use Laracasts\Behat\Context\HttpKernelProxy;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class BehatExtension implements Extension {
 
@@ -87,6 +89,11 @@ class BehatExtension implements Extension {
 	 */
 	private function loadInitializer(ContainerBuilder $container, $app, array $config)
 	{
+		// Fix for Lumen 5.2 (
+		if (! ($app instanceof HttpKernelInterface)) {
+			$app = new HttpKernelProxy($app);
+		}
+		
 		$definition = new Definition('Laracasts\Behat\Context\KernelAwareInitializer', [$app, $config]);
 
 		$definition->addTag(EventDispatcherExtension::SUBSCRIBER_TAG, ['priority' => 0]);
