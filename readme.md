@@ -27,6 +27,7 @@ default:
     extensions:
         Laracasts\Behat:
             # env_path: .env.behat
+            # autoload_path: bootstrap/autoload.php
             # bootstrap_path: bootstrap/app.php
         Behat\MinkExtension:
             default_session: laravel
@@ -38,7 +39,7 @@ Here, is where we reference the Laravel extension, and tell Behat to use it as o
 This file should, like the standard `.env` file in your project root, contain any special environment variables
 for your tests (such as a special acceptance test-specific database).
 
-You may also specify a custom path to Laravel's `bootstrap_path` if it's not in the default location.
+You may also specify a custom path to Laravel's `autoload_path` and `bootstrap_path` if they are not in the default location.
 
 # 3. Write Some Features
 

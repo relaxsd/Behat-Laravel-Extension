@@ -46,6 +46,9 @@ class BehatExtension implements Extension
     {
         $builder
             ->children()
+                ->scalarNode('autoload_path')
+                    ->defaultValue('bootstrap/autoload.php')
+                ->end()
                 ->scalarNode('bootstrap_path')
                     ->defaultValue('bootstrap/app.php')
                 ->end()
@@ -72,7 +75,7 @@ class BehatExtension implements Extension
      */
     private function loadLaravel(ContainerBuilder $container, array $config)
     {
-        $laravel = new LaravelBooter($container->getParameter('paths.base'), $config['env_path'], $config['bootstrap_path']);
+        $laravel = new LaravelBooter($container->getParameter('paths.base'), $config['env_path'], $config['autoload_path'], $config['bootstrap_path']);
 
         $container->set('laravel.app', $app = $laravel->boot());
 

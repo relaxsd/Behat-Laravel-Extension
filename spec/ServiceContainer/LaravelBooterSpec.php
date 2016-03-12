@@ -32,6 +32,11 @@ class LaravelBooterSpec extends ObjectBehavior
         $this->bootstrapFile()->shouldBe('bootstrap/app.php');
     }
 
+    function it_knows_the_autoload_file()
+    {
+        $this->bootstrapFile()->shouldBe('bootstrap/autoload.php');
+    }
+
     function it_takes_exception_with_a_missing_bootstrap_file()
     {
         $this->shouldThrow('RuntimeException')->duringBoot();

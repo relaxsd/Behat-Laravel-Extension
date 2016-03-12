@@ -22,6 +22,13 @@ class LaravelBooter
     private $environmentFile;
 
     /**
+     * The application's autoload file (for Laravel 5.2).
+     *
+     * @var string
+     */
+    private $autoloadFile;
+    
+    /**
      * The application's bootstrap file.
      *
      * @var string
@@ -33,12 +40,14 @@ class LaravelBooter
      *
      * @param        $basePath
      * @param string $environmentFile
+     * @param string $autoloadFile
      * @param string $bootstrapFile
      */
-    public function __construct($basePath, $environmentFile = '.env.behat', $bootstrapFile = 'bootstrap/app.php')
+    public function __construct($basePath, $environmentFile = '.env.behat', $autoloadFile = 'bootstrap/autoload.php', $bootstrapFile = 'bootstrap/app.php')
     {
         $this->basePath = $basePath;
         $this->environmentFile = $environmentFile;
+        $this->autoloadFile = $autoloadFile;
         $this->bootstrapFile = $bootstrapFile;
     }
 
@@ -73,18 +82,32 @@ class LaravelBooter
     }
 
     /**
+     * Get the applications autoload file.
+     *
+     * @return string
+     */
+    public function autoloadFile()
+    {
+        return ltrim($this->autoloadFile, '/');
+    }
+
+    /**
      * Boot the app.
      *
      * @return mixed
      */
     public function boot()
     {
-        $bootstrapFile = $this->bootstrapFile();
-        $bootstrapPath = $this->basePath() . "/$bootstrapFile";
+        // Load the autoload.php file (since Laravel 5.2)
+        $autoloadPath = $this->basePath() . '/'. $this->autoloadFile();
+        $this->assertBootstrapFileExists($autoloadPath);
 
+        require $autoloadPath;
+
+        $bootstrapPath = $this->basePath() . '/'. $this->bootstrapFile();
         $this->assertBootstrapFileExists($bootstrapPath);
 
-        $app = require $bootstrapPath;
+        $app = require_once $bootstrapPath;
 
         $app->loadEnvironmentFrom($this->environmentFile());
 
@@ -104,7 +127,7 @@ class LaravelBooter
     private function assertBootstrapFileExists($bootstrapPath)
     {
         if ( ! file_exists($bootstrapPath)) {
-            throw new RuntimeException('Could not locate the path to the Laravel bootstrap file.');
+            throw new RuntimeException("Could not locate the path to the Laravel bootstrap file '{$bootstrapPath}'.");
         }
     }
 
